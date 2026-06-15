@@ -1,0 +1,175 @@
+.section {
+  padding: clamp(64px, 10vw, 128px) clamp(24px, 6vw, 96px);
+
+  /* dark navy — alternates with surrounding light sections */
+  background-color: oklch(0.279 0.041 260.031);
+  background-image:
+    linear-gradient(oklch(0.551 0.027 264.364 / 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.551 0.027 264.364 / 0.055) 1px, transparent 1px),
+    linear-gradient(oklch(0.551 0.027 264.364 / 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.551 0.027 264.364 / 0.10) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+
+  --paper:       oklch(0.279 0.041 260.031);
+  --paper-dark:  oklch(0.32 0.038 260.000);
+  --charcoal:    oklch(0.928 0.006 264.531);
+  --charcoal-60: oklch(0.928 0.006 264.531 / 0.55);
+  --charcoal-15: oklch(0.928 0.006 264.531 / 0.14);
+  --charcoal-06: oklch(0.928 0.006 264.531 / 0.06);
+  --rust:        oklch(0.65 0.022 264.364);
+  --line:        oklch(0.551 0.027 264.364 / 0.75);
+  --line-faint:  oklch(0.551 0.027 264.364 / 0.28);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 120px);
+  align-items: start;
+}
+
+.left {
+  position: sticky;
+  top: 100px;
+}
+
+/* push timeline down so first year aligns with .title, not .overline */
+.right {
+  padding-top: calc(10px * 1.5 + var(--space-4));
+}
+
+.overline {
+  font-family: var(--ff-cond);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: clamp(48px, 6vw, 88px);
+  margin: 0 0 var(--space-6);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--charcoal);
+}
+
+.body {
+  font-family: var(--ff-cond);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--charcoal-60);
+  line-height: 1.75;
+  max-width: 420px;
+  margin-bottom: var(--space-5);
+  letter-spacing: 0.02em;
+}
+
+.certs {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--charcoal-15);
+}
+
+.cert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--ff-cond);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--charcoal-60);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--charcoal-15);
+  transition: color 150ms ease;
+}
+.cert svg {
+  color: var(--rust);
+  flex-shrink: 0;
+}
+
+/* timeline — 3-column grid: year | connector | text */
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.milestone {
+  display: grid;
+  grid-template-columns: 80px 40px 1fr;
+  align-items: start;
+  padding-bottom: 44px;
+}
+.milestone:last-child { padding-bottom: 0; }
+
+.milestoneYear {
+  font-family: var(--ff-display);
+  font-size: clamp(26px, 2.8vw, 36px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  text-align: right;
+  line-height: 1.1;
+  padding-right: 0;
+}
+
+.milestoneLast .milestoneYear {
+  color: var(--rust);
+}
+
+/* center column: dot + vertical line */
+.milestoneConnector {
+  position: relative;
+  align-self: stretch;
+}
+
+/* dot */
+.milestoneConnector::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--charcoal-60);
+}
+
+/* vertical line to next item */
+.milestoneConnector::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  bottom: -44px;
+  left: 50%;
+  width: 1px;
+  background: var(--charcoal-15);
+}
+
+.milestone:last-child .milestoneConnector::after { display: none; }
+.milestoneLast .milestoneConnector::before { background: var(--rust); }
+
+.milestoneText {
+  font-family: var(--ff-cond);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--charcoal-60);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  padding-top: 2px;
+}
+
+@media (max-width: 900px) {
+  .inner { grid-template-columns: 1fr; }
+  .left { position: static; }
+  .timeline { padding-left: 80px; }
+  .milestoneYear { font-size: 22px; left: -76px; width: 68px; }
+  .timelineAxis { left: 63px; }
+}

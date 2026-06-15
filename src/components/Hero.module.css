@@ -1,0 +1,335 @@
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+
+  /* dark navy hero — hardcoded so the local --charcoal override doesn't self-cancel */
+  background-color: oklch(0.279 0.041 260.031);
+
+  /* subtle light grid on dark background */
+  background-image:
+    linear-gradient(oklch(0.551 0.027 264.364 / 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.551 0.027 264.364 / 0.055) 1px, transparent 1px),
+    linear-gradient(oklch(0.551 0.027 264.364 / 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.551 0.027 264.364 / 0.10) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+
+  /* invert CSS variable roles so every child component auto-adapts */
+  --paper:       oklch(0.279 0.041 260.031);
+  --paper-dark:  oklch(0.32 0.038 260.000);
+  --charcoal:    oklch(0.928 0.006 264.531);
+  --charcoal-60: oklch(0.928 0.006 264.531 / 0.55);
+  --charcoal-15: oklch(0.928 0.006 264.531 / 0.14);
+  --charcoal-06: oklch(0.928 0.006 264.531 / 0.06);
+  --rust:        oklch(0.65 0.022 264.364);    /* mid-light blue accent on dark */
+  --rust-light:  oklch(0.75 0.018 264.364);
+  --line:        oklch(0.551 0.027 264.364 / 0.75);
+  --line-faint:  oklch(0.551 0.027 264.364 / 0.28);
+}
+
+/* engineering drawing frame */
+.frame {
+  position: absolute;
+  inset: 14px;
+  border: 1px solid oklch(0.928 0.006 264.531 / 0.14);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* right-wall spring column */
+.springsColumn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3.5vw, 44px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.springUnit {
+  display: flex;
+  align-items: center;
+}
+
+.springSvg {
+  width: clamp(180px, 26vw, 320px);
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 28px;
+  opacity: 0.7;
+}
+.calloutNum {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--rust);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-cond);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--rust);
+  flex-shrink: 0;
+}
+.calloutText {
+  font-family: var(--ff-cond);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--line);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+.calloutText em {
+  font-style: normal;
+  font-size: 10px;
+  opacity: 0.7;
+  display: block;
+}
+
+/* hero content at bottom — pushed up so info table doesn't clip */
+.heroContent {
+  position: relative;
+  z-index: 2;
+  padding: 100px clamp(28px, 6vw, 88px) clamp(80px, 11vw, 140px);
+}
+
+/* overline */
+.overline {
+  font-family: var(--ff-cond);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  margin-bottom: var(--space-4);
+  opacity: 0;
+}
+
+/* dimension line — spans full width above title */
+.dimLine {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: var(--space-4);
+  opacity: 0;
+  transform-origin: left;
+}
+.dimBarL,
+.dimBarR {
+  flex: 1;
+  height: 1px;
+  background: var(--charcoal-15);
+  position: relative;
+}
+.dimBarL::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: var(--charcoal-15);
+}
+.dimBarR::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: -3px;
+  width: 1px;
+  height: 7px;
+  background: var(--charcoal-15);
+}
+.dimLabel {
+  font-family: var(--ff-cond);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  white-space: nowrap;
+  padding: 0 14px;
+  opacity: 0.75;
+}
+
+/* title */
+.title {
+  font-family: var(--ff-display);
+  font-size: clamp(56px, 8vw, 130px);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  margin-bottom: var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+
+.titleLine {
+  display: block;
+  opacity: 0;
+  transform-origin: left center;
+}
+
+.titleAccent { color: var(--rust); }
+
+/* bottom row */
+.bottomRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 40px);
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* CTA area */
+.ctaArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  padding: 15px 40px;
+  /* hardcoded: near-white on dark hero = maximum contrast */
+  background: oklch(0.928 0.006 264.531);
+  color: oklch(0.279 0.041 260.031);
+  font-family: var(--ff-cond);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 220ms ease, color 220ms ease, transform 180ms ease, box-shadow 220ms ease;
+  position: relative;
+  overflow: hidden;
+}
+/* hover: invert — dark navy fill, white text, lift + glow */
+.btnPrimary:hover {
+  background: oklch(0.373 0.034 259.733);
+  color: oklch(0.928 0.006 264.531);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px oklch(0.279 0.041 260.031 / 0.55);
+}
+
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: oklch(0.928 0.006 264.531 / 0.65);
+  font-family: var(--ff-cond);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 180ms ease, gap 200ms ease;
+  position: relative;
+}
+.btnGhost::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: oklch(0.928 0.006 264.531);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 240ms ease;
+}
+.btnGhost:hover {
+  color: oklch(0.928 0.006 264.531);
+  gap: 12px;
+}
+.btnGhost:hover::after { transform: scaleX(1); }
+
+/* info table — 4 cells, readable for 30–60+ audience */
+.infoTable {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  border: 1px solid var(--charcoal-15);
+  flex-shrink: 0;
+}
+
+.infoCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px;
+  border-right: 1px solid var(--charcoal-15);
+}
+.infoCell:last-child { border-right: none; }
+
+.infoLabel {
+  font-family: var(--ff-cond);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--line);
+  white-space: nowrap;
+}
+
+.infoValue {
+  font-family: var(--ff-cond);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--charcoal);
+  white-space: nowrap;
+}
+
+/* scroll hint */
+.scrollHint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 3;
+}
+.scrollLine {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--line));
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+.scrollLabel {
+  font-family: var(--ff-cond);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--line);
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.35; transform: scaleY(0.8); transform-origin: top; }
+  50%       { opacity: 1;    transform: scaleY(1); }
+}
+
+@media (max-width: 768px) {
+  .springsColumn { display: none; }
+  .title { font-size: clamp(48px, 14vw, 100px); }
+  .overline, .titleLine, .bottomRow, .dimLine { opacity: 1 !important; transform: none !important; }
+  .bottomRow { flex-direction: column; align-items: flex-start; }
+  .infoTable { grid-template-columns: repeat(2, 1fr); }
+}
