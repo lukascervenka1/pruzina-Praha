@@ -216,6 +216,14 @@
 
   .link { font-size: 18px; }
 
+  /* mobile menu is light — override default white-on-dark link colors */
+  .links .link { color: var(--charcoal); }
+  .links .link::after { background: var(--rust); }
+  .links .link:hover { color: var(--charcoal); }
+  .links .phone { color: var(--charcoal); border-color: var(--charcoal-15); }
+  .links .phone:hover { border-color: var(--charcoal); color: var(--charcoal); }
+  .links .ctaNav { color: oklch(0.928 0.006 264.531); background: var(--charcoal); }
+
   .burgerOpen:first-child { transform: translateY(7.5px) rotate(45deg); }
   .burgerOpen:last-child  { transform: translateY(-7.5px) rotate(-45deg); }
 }
